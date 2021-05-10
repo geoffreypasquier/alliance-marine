@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Demo Maker HOW TO</title>
+        <style>
+            body {
+                position: relative;
+                padding: 0;
+                margin: 0;
+                font-size: .9em;
+                font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+                font-weight: normal;
+                color: #404040;
+                background: #edf0f2
+            }
+            article {
+                display: block;
+                list-style-type: none;
+                padding: 80px 20px 20px;
+                margin: 20px auto;
+                max-width: 700px;
+                background: url("http://boxes.akeneo.com/images/akene.png") center 20px no-repeat white;
+                border-radius: 5px;
+                box-shadow: #CCCCCC 2px 2px 5px;
+                position: relative;
+                zoom: 1;
+            }
+
+            dt {
+                font-weight: bold;
+                padding: 0;
+                margin: 0;
+            }
+            dd {
+                padding:0;
+                margin: 5px 0 10px
+            }
+            dl {
+                margin: 0 20px 0;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 80px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <article>
+            <header>
+                <h1>Demo Maker HOW TO</h1>
+                    <h2>Base software requirements</h2>
+    <p>Vagrant and Virtualbox programs are required to install demos on your computer.
+        To install these programs you should follow <a href="https://boxes.akeneo.com/#notice">boxes installation guide</a>.
+    </p>
+
+    <h2>Demo Maker usage</h2>
+    <p>To install the demo maker, use the <b>install(.bat)</b> script in this folder. It only has to be run once.</p>
+    <p>Once you have completed installation, you can use four scripts:</p>
+    <dl>
+        <dt>start(.bat)</dt>
+        <dd>Should be used to start the box. (it will create the box if the box doesn't already exist)</dd>
+        <dt>stop(.bat)</dt>
+        <dd>Stops the box and saves its state.</dd>
+        <dt>destroy(.bat)</dt>
+        <dd>Destroys the box.</dd>
+        <dt>reload(.bat)</dt>
+        <dd>Reload the data in the box</dd>
+        <dt>update(.bat)</dt>
+        <dd>Recreates and updates the box</dd>
+        <dt>boost</dt>
+        <dd>On Linux and Mac only, allow to customize box memory and CPU, php memory and ElasticSearch memory</dd>
+    </dl>
+    <p>To run these scripts on MacOs, you will have to <b>right click</b> them and choose <b>Open</b> in the menu.</p>
+    <p>Products can be imported inside the demo by editing the files in the
+        <a href="data/NOTICE.html">data</a> folder. If you have been modifying files in the data folder and you want the modification to appear in the PIM you should use <b>reload(.bat)</b></p>
+    <p>Once your demo has been started, it will be accessible at the following URLs :</p>
+    <ul>
+        <li>
+            <b>Akeneo PIM:</b> <a href="http://localhost:8072">http://localhost:8072</a>
+        </li>
+    </ul>
+
+    <p>The following users will be available:</p>
+    <ul>
+        <li><b>admin/admin:</b> full access.</li>
+        <li><b>mike/mike:</b> full access over all products and attributes.</li>
+        <li><b>julia/julia:</b> full access over all products and all attributes except ecommerce.</li>
+        <li><b>lionel/lionel:</b> can make propositions on all products over all attributes except ecommerce.</li>
+        <li><b>marylin/marylin:</b> can make propositions on all products over all attributes except ecommerce.</li>
+        <li><b>kim/kim:</b> can make propositions on products of the print catalog over all attributes except ecommerce.</li>
+    </ul>
+            </header>
+        </article>
+    </body>
+</html>

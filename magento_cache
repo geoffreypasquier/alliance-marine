@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd $(dirname $0)
+
+vagrant ssh -c 'php -dmemory_limit=-1 /home/akeneo/magento/bin/magento cach:clean && php -dmemory_limit=-1 /home/akeneo/magento/bin/magento cache:flush && php -dmemory_limit=-1 /home/akeneo/magento/bin/magento indexer:reindex'

@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Importing Data in the Demo</title>
+        <style>
+            body {
+                position: relative;
+                padding: 0;
+                margin: 0;
+                font-size: .9em;
+                font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+                font-weight: normal;
+                color: #404040;
+                background: #edf0f2
+            }
+            article {
+                display: block;
+                list-style-type: none;
+                padding: 80px 20px 20px;
+                margin: 20px auto;
+                max-width: 700px;
+                background: url("http://boxes.akeneo.com/images/akene.png") center 20px no-repeat white;
+                border-radius: 5px;
+                box-shadow: #CCCCCC 2px 2px 5px;
+                position: relative;
+                zoom: 1;
+            }
+
+            dt {
+                font-weight: bold;
+                padding: 0;
+                margin: 0;
+            }
+            dd {
+                padding:0;
+                margin: 5px 0 10px
+            }
+            dl {
+                margin: 0 20px 0;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 80px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <article>
+            <header>
+                <h1>Importing Data in the Demo</h1>
+                    <section>
+        <header>
+            <h2>Demo parameters.</h2>
+        </header>
+        <p>In the init.xlsx first tab you will find setup parameters for your pim demo. Each parameters are described by an excel comment.</p>
+    </section>
+    <section>
+        <header>
+            <h2>Importing Products.</h2>
+        </header>
+        <p>You can add as many product import files as needed in this directory. The name of the files should start
+        by <i>products</i> and they should have the <i>xlsx</i> extension.</p>
+        <p>You can use the columns you want inside the files, and as many worksheets as needed. Attributes will be
+        created for each of your columns.</p>
+        <p>The following special columns <i>can</i> be used:</p>
+        <dl>
+            <dt>sku</dt>
+            <dd>Use this column to specify the identifier of the products. If the column is not present, or no SKU
+            is read, an identifier will be automatically generated.</dd>
+            <dt>family</dt>
+            <dd>Use this column to specify the name of the product family. If the column is not
+            present, or no value is given, the name of the worksheet will be used. All the attributes of the product
+            will be added to its family.</dd>
+            <dt>category1, category2... category6</dt>
+            <dd>Use these columns to specify the name of the categories in which the product should be classified.
+            The categories will be created accordingly.<br/>
+            For example, if you have "T-shirt" in <i>category1</i> and "Long sleeves" in <i>category2</i>, the product
+            will be in <i>Master&gt;T-shirt&gt;Long sleeves</i>. </dd>
+        </dl>
+        <p>For all special columns, you <b>must</b> use the exact column header, in lowercase.</p>
+        <p>You can also use the following attributes in your data:</p>
+        <dl>
+            <dt>Name</dt>
+            <dd>Will be used for the label of products, and in the rules engine.
+                (You may also use Variation name if you already used name in the product model)</dd>
+        </dl>
+        <dl>
+            <dt>Description</dt>
+            <dd>Will be used for the rules engine.</dd>
+        </dl>
+        <dl>
+            <dt>Supplier</dt>
+            <dd>Will be used to populate the suppliers database and to create supplier user accounts. For example,
+            if you add "Zaro" in the supplier column, you will be able to connect to the pim with a zaro:zaro
+            account.</dd>
+        </dl>
+    </section>
+    <section>
+        <header>
+            <h2>Importing Product Models.</h2>
+        </header>
+        <p>You can add as many product model import files as needed in this directory. The name of the files
+            should start by <i>product_models</i> and they should have the <i>xlsx</i> extension.</p>
+        <p>You can use the columns you want inside the files, and as many worksheets as needed. Attributes will be
+            created for each of your columns. </p>
+        <p>The following special column <b>must</b> be used:</p>
+        <dl>
+            <dt>code</dt>
+            <dd>The unique code of the product model. Can be use in the parent column of the product.xlsx file.</dd>
+        </dl>
+
+        <dl>
+            <dt>family_variant</dt>
+            <dd>The family variant of the product model. Be careful each product link to a product model must have the same family.</dd>
+        </dl>
+        <dl>
+            <dt>variant-axes_1</dt>
+            <dd>The attribute(s) that should be use has axes. You should declare it in the init.xlsx.</dd>
+        </dl>
+
+        <p>The following special columns <i>can</i> be used:</p>
+        <dl>
+            <dt>parent</dt>
+            <dd>If the product model is a second level product model. In that case you must specify variant-axes_2</dd>
+        </dl>
+        <p>For all special columns, you <b>must</b> use the exact column header, in lowercase.</p>
+        <p>You can also use the following attributes in your data:</p>
+        <dl>
+            <dt>Name</dt>
+            <dd>Will be used for the label of products.</dd>
+        </dl>
+        <dl>
+            <dt>image_1</dt>
+            <dd>Will be used for the main product image. (displayed in the grid)</dd>
+        </dl>
+    </section>
+    <section>
+        <header>
+            <h2>Importing Reference Entity Records.</h2>
+        </header>
+        <p>You can add as many reference entity record import files as needed in this directory. The name of the files
+            should start by <i>reference_entit</i> and they should have the <i>xlsx</i> extension.</p>
+        <p>You can use the columns you want inside the files, and as many worksheets as needed. Attributes will be
+            created for each of your columns. </p>
+        <p>The following special column <b>must</b> be used:</p>
+        <dl>
+            <dt>reference_entity</dt>
+            <dd>The code or label of the reference entity.</dd>
+        </dl>
+        <dl>
+            <dt>label</dt>
+            <dd>The label of the record. A code will be automatically generated from the label.</dd>
+        </dl>
+        <p>The following special columns <i>can</i> be used:</p>
+        <dl>
+            <dt>image</dt>
+            <dd>Will be used for the main record image. (displayed in the grid).</dd>
+        </dl>
+    </section>
+    <section>
+        <header>
+            <h2>Customizing the attributes.</h2>
+        </header>
+        <p>You can change the type of the attributes, as well as their order, and their attribute groups in the
+        <i>init.xlsx</i> file of the folder. To change the properties an attribute, copy its name in the
+        <i>label</i> column, and customize the attribute's data. The following rules must be followed:</p>
+        <ul>
+            <li>If you select the <i>Metric</i> type, you will have to specify <i>metric_family</i> and
+            <i>default_metric_unit</i></li>
+            <li>If you select the <i>Image</i> attribute type or the <i>File</i> attribute type, you will have to
+            specify the <i>allowed_extensions</i>.</li>
+        </ul>
+    </section>
+    <section>
+        <header>
+            <h2>Importing Images.</h2>
+        </header>
+        <p>To import images, proceed as follows:</p>
+        <ul>
+            <li>Save your images in the <i>data/images</i> folder.</li>
+            <li>Inside your product import files, set the relative path of the images for all images. For example,
+            if you have a <i>image.jpeg</i> file in your <i>images</i> folder, you will need to have a value of
+            <i>images/image.jpeg</i></li>
+            <li>Set the type of the image attributes to <i>Image</i> in the <i>init.xlsx</i> file or use <i>Image 1</i>, <i>Image 2</i> or <i>Image 3</i> column name.</li>
+            <li>If you have image links in you data file you can set <i>download_images</i> to <i>True</i> in the <i>init.xlsx</i> file in order to automatically download them.</li>
+        </ul>
+        <p>Asset collections will be created from the images of your products.</p>
+    </section>
+            </header>
+        </article>
+    </body>
+</html>

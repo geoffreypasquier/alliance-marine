@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ $(uname) != "Darwin" ]];then
+echo This script is only compatible with macOS.
+exit 1
+fi
+
+cd $(dirname $0)
+MYSQL_REQUIRED_MEMORY=1024
+
+read -p 'How much memory would you like for the box? (4096): ' VM_MEMORY
+VM_MEMORY="${VM_MEMORY:=4096}"
+USABLE_MEMORY=$(( VM_MEMORY-MYSQL_REQUIRED_MEMORY ))
+PURPOSED_PHP_MEMORY_LIMIT=$(( USABLE_MEMORY/2 ))
+PURPOSED_ES_MEMORY=$(( USABLE_MEMORY/2 ))
+read -p 'How much cpus would you like for the box? (2): ' VM_CPUS
+read -p "How much php memory limit would you like? (${PURPOSED_PHP_MEMORY_LIMIT} max recommended): " PHP_MEMORY_LIMIT
+read -p "How much memory would you like for the elasticsearch server? (${PURPOSED_ES_MEMORY} max recommended): " ES_MEMORY
+
+VM_CPUS="${VM_CPUS:=2}"
+PHP_MEMORY_LIMIT="${PHP_MEMORY_LIMIT:=$PURPOSED_PHP_MEMORY_LIMIT}"
+ES_MEMORY="${ES_MEMORY:=$PURPOSED_ES_MEMORY}"
+
+MYSQL_AVAILABLE_MEMORY_AFTER_PHP_ES_CONF=$(( VM_MEMORY-PHP_MEMORY_LIMIT-ES_MEMORY ))
+
+if [ "$MYSQL_AVAILABLE_MEMORY_AFTER_PHP_ES_CONF" -lt "$MYSQL_REQUIRED_MEMORY" ]; then
+echo -e "\033[0;31mYou have set too much memory to PHP and/or Elasticsearch,\nMySQL Requires at least 1024M of Available Memory to work properly.\nHere there is only ${MYSQL_AVAILABLE_MEMORY_AFTER_PHP_ES_CONF}M of free memory available for Mysql.\nWe encourage you to use Recommended Values"
+exit 1
+fi;
+
+echo Thank you I will put $VM_CPUS cpus and $VM_MEMORY mega to the box.
+echo $PHP_MEMORY_LIMIT mega to the php server.
+echo $ES_MEMORY mega to the elasticsearch server.
+echo $MYSQL_AVAILABLE_MEMORY_AFTER_PHP_ES_CONF will remains for the MySQL server.
+echo
+read -p "Are you sure you want to continue? <y/N> " prompt
+if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
+then
+echo Injecting power...
+else
+echo No, Another time maybe
+exit 0
+fi
+sed -i '' "s/;*v.memory.*/v.memory = \"${VM_MEMORY}\"/" $(dirname $0)/Vagrantfile
+sed -i '' "s/;*v.cpus.*/v.cpus = \"${VM_CPUS}\"/" $(dirname $0)/Vagrantfile
+
+vagrant up
+vagrant ssh -c "sudo sed -i 's|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}M|i' /etc/php/7.3/cli/php.ini"
+vagrant ssh -c "sudo sed -i 's|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}M|i' /etc/php/7.3/fpm/php.ini"
+
+vagrant ssh -c "sudo sed -i 's|\-Xms.*|\-Xms${ES_MEMORY}m|i' /etc/elasticsearch/jvm.options"
+vagrant ssh -c "sudo sed -i 's|\-Xmx.*|\-Xmx${ES_MEMORY}m|i' /etc/elasticsearch/jvm.options"
+vagrant halt
+
+echo Done
+
+exit 0

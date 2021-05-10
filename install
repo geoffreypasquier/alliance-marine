@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd $(dirname $0)
+
+vagrant box add http://akeneo:beiNai2y@boxes.akeneo.com/demo_maker.json
+vagrant box update
+vagrant up

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd $(dirname $0)
+
+vagrant ssh -c 'cd /home/akeneo/pim;bin/console pimee:data-quality-insights:demo-helper -f -n'
